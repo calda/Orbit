@@ -11,13 +11,11 @@ import Darwin
 
 class GameScene: SKScene {
     
-    var planet1 = Planet(radius: 10, color: SKColor.blueColor(), position: CGPointMake(300,300), physicsMode: .Player)
-    var planet2 = Planet(radius: 60, color: SKColor.redColor(), position: CGPointMake(300,500), physicsMode: .SceneStationary)
     let touchTracker = TouchTracker()
     
     override func didMoveToView(view: SKView) {
-        addChild(planet1)
-        addChild(planet2)
+        var sun = Planet(radius: 100, color: SKColor.redColor(), position: CGPointMake(size.width / 2, size.height / 2), physicsMode: .SceneStationary)
+        addChild(sun)
         //planet1.physicsBody?.applyForce(CGVectorMake(30, 0))
         
         let doCalculations = SKAction.sequence([
@@ -60,6 +58,14 @@ class GameScene: SKScene {
             let position = (touch as UITouch).previousLocationInNode(self)
             let planet = touchTracker.stopTracking(position)
             addChild(planet)
+            if(pow(planet.velocityVector.dx, 2) + pow(planet.velocityVector.dy, 2) > 4500){
+                for child in self.children {
+                    var planet = child as Planet
+                    if !planet.physicsMode.stationary {
+                        self.removeChildrenInArray([planet])
+                    }
+                }
+            }
         }
     }
     
@@ -74,7 +80,7 @@ class TouchTracker {
     var touches : [Planet : CGPoint] = [:]
     
     func startTracking(touch: CGPoint){
-        let newPlanet = Planet(radius: 10, color: SKColor.blueColor(), position: touch, physicsMode: .Player)
+        let newPlanet = Planet(radius: 10, color: getRandomColor(), position: touch, physicsMode: .Player)
         touches.updateValue(touch, forKey: newPlanet)
     }
     
@@ -87,7 +93,6 @@ class TouchTracker {
     
     func didMove(touch: CGPoint){
         let planet = getAssociatedPlanet(touch)
-        planet.dumpStats()
         touches.updateValue(touch, forKey: planet)
     }
     
@@ -102,4 +107,12 @@ class TouchTracker {
         return closest.planet!
     }
     
+}
+
+func getRandomColor() -> SKColor{
+    return SKColor(red: random(min:0, max:1), green: random(min:0, max:1), blue: random(min:0, max:1), alpha: 1)
+}
+
+func random(#min: CGFloat, #max: CGFloat) -> CGFloat {
+    return CGFloat(Float(arc4random()) / 0xFFFFFFFF) * (max - min) + min
 }

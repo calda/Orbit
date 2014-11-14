@@ -11,7 +11,7 @@ import SpriteKit
 
 class Planet : SKShapeNode{
     
-    let GRAVITATIONAL_CONSTANT : CGFloat = 1000
+    let GRAVITATIONAL_CONSTANT : CGFloat = 0.00005
     var physicsMode : PlanetPhysicsMode = PlanetPhysicsMode.None
     var deservesUpdate : Bool = true
     var radius : CGFloat = 0
@@ -32,6 +32,7 @@ class Planet : SKShapeNode{
         self.init()
         self.init(circleOfRadius: radius)
         self.physicsMode = physicsMode
+        self.zPosition = CGFloat(physicsMode.rawValue)
         self.radius = radius
         self.fillColor = color
         self.position = position
@@ -43,36 +44,11 @@ class Planet : SKShapeNode{
         self.physicsBody?.categoryBitMask = physicsMode.rawValue
     }
     
-    /*func applyForcesOf(other: Planet){
-        if(!self.deservesUpdate && !other.deservesUpdate){ return }
-        //Fg = m1 * m2 / d62
-        let distanceSquared = self.position.distanceSquaredTo(other.position)
-        let gravityForce = (self.mass * other.mass) / distanceSquared
-        var distance : CGFloat = 0
-        
-        func applyForcesBetween(planet: Planet, other: Planet){
-            if(!planet.deservesUpdate){ return }
-            //a = f / m
-            let accelleration = gravityForce / planet.mass
-            println("Accelleration for planet(r=\(planet.radius)) is \(accelleration)")
-            if(accelleration < 0.1){ return }
-            if(distance == 0){ distance = sqrt(distanceSquared) }
-            let normalVector = (planet.position.asVector() - other.position.asVector()) / -distance
-            // Fv = Vn * a * G / M
-            let forceVector = (normalVector * accelleration * GRAVITATIONAL_CONSTANT / planet.mass)
-            println("Force vector: \(forceVector)")
-            planet.velocityVector = planet.velocityVector + forceVector
-        }
-        
-        applyForcesBetween(self, other)
-        //applyForcesBetween(other, self)
-    }*/
-    
     func applyForcesOf(other: Planet){
         if physicsMode.stationary { return }
         let distance = CGVectorMake(other.position.x - self.position.x, other.position.y - self.position.y)
-        let accelleration = distance / (abs(distance.dx) + abs(distance.dy))
-        velocityVector = velocityVector + (accelleration * other.gravity * 0.00005)
+        let acceleration = distance / (abs(distance.dx) + abs(distance.dy))
+        velocityVector = velocityVector + (acceleration * other.gravity * GRAVITATIONAL_CONSTANT)
     }
     
     func updatePosition(){
@@ -86,15 +62,11 @@ class Planet : SKShapeNode{
 }
 
 enum PlanetPhysicsMode : UInt32{
-    case None = 0,
-    Scene = 1,
-    SceneStationary = 2,
-    Player = 3,
-    PlayerStationary = 4
+    case None = 0, Player, PlayerStationary, Scene, SceneStationary
     
     var affactedByPlayer : Bool{
         get{
-            return self.rawValue > 2
+            return self.rawValue <= 2
         }
     }
     
