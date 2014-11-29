@@ -11,7 +11,7 @@ import SpriteKit
 
 class Planet : SKShapeNode{
     
-    let GRAVITATIONAL_CONSTANT : CGFloat = 0.00005
+    let GRAVITATIONAL_CONSTANT : CGFloat = 0.000025
     var physicsMode : PlanetPhysicsMode = PlanetPhysicsMode.None
     var deservesUpdate : Bool = true
     var radius : CGFloat = 0
