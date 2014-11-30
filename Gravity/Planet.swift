@@ -11,14 +11,13 @@ import SpriteKit
 
 class Planet : SKShapeNode{
     
-    let GRAVITATIONAL_CONSTANT : CGFloat = 0.000025
+    let GRAVITATIONAL_CONSTANT : CGFloat = 0.0000325
     var physicsMode : PlanetPhysicsMode = PlanetPhysicsMode.None
     var deservesUpdate : Bool = true
     var radius : CGFloat = 0
     var mass : CGFloat {
         get{
             return pow(radius, 3) * 3.14 * (4/3)
-            //return 3.14 * pow(radius, 2)
         }
     }
     var gravity : CGFloat {
@@ -35,6 +34,8 @@ class Planet : SKShapeNode{
         self.zPosition = CGFloat(physicsMode.rawValue)
         self.radius = radius
         self.fillColor = color
+        self.lineWidth = 5.0
+        self.strokeColor = color
         self.position = position
         self.physicsBody = SKPhysicsBody(circleOfRadius: radius)
         self.physicsBody?.dynamic = true
@@ -47,6 +48,11 @@ class Planet : SKShapeNode{
     func applyForcesOf(other: Planet){
         if physicsMode.stationary { return }
         let distance = CGVectorMake(other.position.x - self.position.x, other.position.y - self.position.y)
+        let distanceSquared = distance.dx * distance.dx + distance.dy * distance.dy
+        if (distanceSquared < pow(self.radius * 1.1, 2) || distanceSquared < pow(self.radius * 1.1, 2)) {
+            println("collision \(rand())")
+            return
+        }
         let acceleration = distance / (abs(distance.dx) + abs(distance.dy))
         velocityVector = velocityVector + (acceleration * other.gravity * GRAVITATIONAL_CONSTANT)
     }
