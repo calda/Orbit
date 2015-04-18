@@ -15,13 +15,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         willSet(newCount) {
             let plural = "s"
             let singular = ""
-            (self.childNodeWithName("GUI")!.childNodeWithName("PlanetCount")! as SKLabelNode).text = "\(newCount) planet\(newCount == 1 ? singular : plural)"
-            (self.childNodeWithName("GUI")!.childNodeWithName("PPS")! as SKLabelNode).text = "\(max(newCount - 1, 0)) point\((newCount - 1) == 1 ? singular : plural) per second"
+            (self.childNodeWithName("GUI")!.childNodeWithName("PlanetCount")! as! SKLabelNode).text = "\(newCount) planet\(newCount == 1 ? singular : plural)"
+            (self.childNodeWithName("GUI")!.childNodeWithName("PPS")! as! SKLabelNode).text = "\(max(newCount - 1, 0)) point\((newCount - 1) == 1 ? singular : plural) per second"
         }
     }
     var points: Int = 0 {
         willSet(newPoints) {
-            (self.childNodeWithName("GUI")!.childNodeWithName("Points")! as SKLabelNode).text = "\(newPoints)"
+            (self.childNodeWithName("GUI")!.childNodeWithName("Points")! as! SKLabelNode).text = "\(newPoints)"
         }
     }
     var touchTracker : TouchTracker? = nil
@@ -84,10 +84,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func doForceCaculations(){
         for child in self.children{
             if !(child is Planet){ continue }
-            let planet = child as Planet
+            let planet = child as! Planet
             for child in self.children{
                 if !(child is Planet){ continue }
-                let other = child as Planet
+                let other = child as! Planet
                 if other == planet{ continue }
                 planet.applyForcesOf(other)
             }
@@ -109,12 +109,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact){
         if contact.bodyA.node is Planet && contact.bodyB.node is Planet{
-            let planet1 = contact.bodyA.node as Planet
-            let planet2 = contact.bodyB.node as Planet
+            let planet1 = contact.bodyA.node as! Planet
+            let planet2 = contact.bodyB.node as! Planet
             removeChildrenInArray([planet1, planet2])
             let biggest = (planet1.radius >= planet2.radius ? planet1 : planet2)
             let smallest = (planet1.radius >= planet2.radius ? planet2 : planet1)
-            let newRadius = biggest.radius + (smallest.radius / 2)
+            //return pow(radius, 3) * 3.14 * (4/3)
+            let newMass = biggest.mass + smallest.mass * 2
+            let newRadius = pow(newMass / (4/3) / (3.14), 1/3)
             var color1 : [CGFloat] = [0,0,0]
             planet1.fillColor.getRed(&color1[0], green: &color1[1], blue: &color1[2], alpha: nil)
             var color2 : [CGFloat] = [0,0,0]
@@ -134,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         if !gameOverLabel.hidden {
             for node in self.children{
                 if node is Planet {
@@ -152,22 +154,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 touchTracker = TouchTracker()
             }
             for touch in touches{
-                let position = (touch as UITouch).previousLocationInNode(self)
+                let position = (touch as! UITouch).previousLocationInNode(self)
                 touchTracker?.startTracking(position)
             }
         }
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch in touches{
-            let position = (touch as UITouch).previousLocationInNode(self)
+            let position = (touch as! UITouch).previousLocationInNode(self)
             touchTracker?.didMove(position)
         }
     }
    
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch in touches{
-            let position = (touch as UITouch).previousLocationInNode(self)
+            let position = (touch as! UITouch).previousLocationInNode(self)
             if touchTracker != nil{
                 if var planet = touchTracker!.stopTracking(position) {
                     addChild(planet)

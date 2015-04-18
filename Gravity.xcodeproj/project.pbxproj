@@ -143,9 +143,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2EC49E081A0EBAD9001059BC /* Gravity */ = {
+		2EC49E081A0EBAD9001059BC /* Orbit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2EC49E2C1A0EBAD9001059BC /* Build configuration list for PBXNativeTarget "Gravity" */;
+			buildConfigurationList = 2EC49E2C1A0EBAD9001059BC /* Build configuration list for PBXNativeTarget "Orbit" */;
 			buildPhases = (
 				2EC49E051A0EBAD9001059BC /* Sources */,
 				2EC49E061A0EBAD9001059BC /* Frameworks */,
@@ -155,7 +155,7 @@
 			);
 			dependencies = (
 			);
-			name = Gravity;
+			name = Orbit;
 			productName = Gravity;
 			productReference = 2EC49E091A0EBAD9001059BC /* Gravity.app */;
 			productType = "com.apple.product-type.application";
@@ -209,7 +209,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2EC49E081A0EBAD9001059BC /* Gravity */,
+				2EC49E081A0EBAD9001059BC /* Orbit */,
 				2EC49E211A0EBAD9001059BC /* GravityTests */,
 			);
 		};
@@ -262,7 +262,7 @@
 /* Begin PBXTargetDependency section */
 		2EC49E241A0EBAD9001059BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2EC49E081A0EBAD9001059BC /* Gravity */;
+			target = 2EC49E081A0EBAD9001059BC /* Orbit */;
 			targetProxy = 2EC49E231A0EBAD9001059BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -432,7 +432,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EC49E2C1A0EBAD9001059BC /* Build configuration list for PBXNativeTarget "Gravity" */ = {
+		2EC49E2C1A0EBAD9001059BC /* Build configuration list for PBXNativeTarget "Orbit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2EC49E2D1A0EBAD9001059BC /* Debug */,
