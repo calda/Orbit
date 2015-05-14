@@ -15,6 +15,7 @@
 		446E27B31B04CBA00020DB7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A91B04CBA00020DB7A /* Images.xcassets */; };
 		446E27B51B04CBA00020DB7A /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27AB1B04CBA00020DB7A /* Planet.swift */; };
 		446E27B71B04CC150020DB7A /* OrbitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27B61B04CC150020DB7A /* OrbitTests.swift */; };
+		446E27BD1B04D9410020DB7A /* PathDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27BC1B04D9410020DB7A /* PathDot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		446E27AB1B04CBA00020DB7A /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		446E27B61B04CC150020DB7A /* OrbitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitTests.swift; sourceTree = "<group>"; };
 		446E27B81B04CC1A0020DB7A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		446E27BC1B04D9410020DB7A /* PathDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathDot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				446E27A81B04CBA00020DB7A /* GameViewController.swift */,
 				446E27A91B04CBA00020DB7A /* Images.xcassets */,
 				446E27AB1B04CBA00020DB7A /* Planet.swift */,
+				446E27BC1B04D9410020DB7A /* PathDot.swift */,
 				446E27791B04CB220020DB7A /* Supporting Files */,
 			);
 			path = Orbit;
@@ -230,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				446E27B21B04CBA00020DB7A /* GameViewController.swift in Sources */,
+				446E27BD1B04D9410020DB7A /* PathDot.swift in Sources */,
 				446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */,
 				446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */,
 				446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */,

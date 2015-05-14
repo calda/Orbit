@@ -1,17 +1,17 @@
-//
-//  GameScene.swift
-//  Gravity
-//
-//  Created by Cal on 11/8/14.
-//  Copyright (c) 2014 Cal. All rights reserved.
-//
-
-import SpriteKit
-import Darwin
-
-class GameScene: SKScene, SKPhysicsContactDelegate {
+ //
+ //  GameScene.swift
+ //  Gravity
+ //
+ //  Created by Cal on 11/8/14.
+ //  Copyright (c) 2014 Cal. All rights reserved.
+ //
+ 
+ import SpriteKit
+ import Darwin
+ 
+ class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var planetCount: Int = 0 {
+    var planetCount: Int = 2 {
         willSet(newCount) {
             let plural = "s"
             let singular = ""
@@ -35,7 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         screenSize = (760, 1365)
         let countLabel = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
         countLabel.name = "PlanetCount"
-        countLabel.text = "0 planets"
+        countLabel.text = "2 planets"
         countLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.15, alpha: 1)
         countLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         countLabel.fontSize = 60
@@ -58,7 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         GUINode.addChild(gameOverLabel)
         let ppsLabel = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
         ppsLabel.name = "PPS"
-        ppsLabel.text = "0 points per second"
+        ppsLabel.text = "1 point per second"
         ppsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         ppsLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.15, alpha: 1)
         ppsLabel.fontSize = 40
@@ -69,19 +69,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let updatePoints = SKAction.sequence([
             SKAction.runBlock({ self.points += max(self.planetCount - 1, 0) }),
             SKAction.waitForDuration(0.5)
-        ])
+            ])
         runAction(SKAction.repeatActionForever(updatePoints))
+        
+        let center = CGPointMake(screenSize.width / 2, screenSize.height / 2)
+        
+        let planet1Origin = CGPointMake(center.x, center.y + 200)
+        let startPlanet1 = Planet(radius: 20, color: getRandomColor(), position: planet1Origin, physicsMode: .Scene)
+        startPlanet1.name = "StartPlanet1"
+        startPlanet1.velocityVector = CGVector(dx: 7.0, dy: 0)
+        addChild(startPlanet1)
+        
+        /*let planet2Origin = CGPointMake(center.x, center.y - 200)
+        let startPlanet2 = Planet(radius: 20, color: getRandomColor(), position: planet2Origin, physicsMode: .Scene)
+        startPlanet2.velocityVector = CGVector(dx: -7.0, dy: 0)
+        startPlanet2.name = "StartPlanet2"
+        addChild(startPlanet2)*/
+        
+        let startPlanet3 = Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary)
+        addChild(startPlanet3)
+        
+        //Path Generator????????
+        PathDot.generatePathOnPlanet(startPlanet1, persistAttached: false, resetAll: true)
         
         //game setup
         physicsWorld.contactDelegate = self
         let doCalculations = SKAction.sequence([
             SKAction.runBlock(doForceCaculations),
             SKAction.waitForDuration(0.01)
-        ])
+            ])
         runAction(SKAction.repeatActionForever(doCalculations))
     }
     
-    func doForceCaculations(){
+    func doForceCaculations() {
         for child in self.children{
             if !(child is Planet){ continue }
             let planet = child as! Planet
@@ -111,28 +131,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node is Planet && contact.bodyB.node is Planet{
             let planet1 = contact.bodyA.node as! Planet
             let planet2 = contact.bodyB.node as! Planet
+            
+            let newPlanet = planet1.mergeWithPlanet(planet2)
+            
             removeChildrenInArray([planet1, planet2])
-            let biggest = (planet1.radius >= planet2.radius ? planet1 : planet2)
-            let smallest = (planet1.radius >= planet2.radius ? planet2 : planet1)
-            //return pow(radius, 3) * 3.14 * (4/3)
-            let newMass = biggest.mass + smallest.mass * 2
-            let newRadius = pow(newMass / (4/3) / (3.14), 1/3)
-            var color1 : [CGFloat] = [0,0,0]
-            planet1.fillColor.getRed(&color1[0], green: &color1[1], blue: &color1[2], alpha: nil)
-            var color2 : [CGFloat] = [0,0,0]
-            planet2.fillColor.getRed(&color2[0], green: &color2[1], blue: &color2[2], alpha: nil)
-            var newColor : [CGFloat] = [0,0,0]
-            for i in 0...2 {
-                newColor[i] = (color1[i] * planet1.mass + color2[i] * planet2.mass) / (planet1.mass + planet2.mass)
-            }
-            let combinedColor = UIColor(red: newColor[0], green: newColor[1], blue: newColor[2], alpha: 1.0)
-            var newVelocityVector = CGVectorMake(0,0)
-            newVelocityVector.dx = (planet1.velocityVector.dx * planet1.mass + planet2.velocityVector.dx * planet2.mass) / (planet1.mass + planet2.mass)
-            newVelocityVector.dy = (planet1.velocityVector.dy * planet1.mass + planet2.velocityVector.dy * planet2.mass) / (planet1.radius + planet2.mass)
-            let combinedPlanet = Planet(radius: newRadius, color: combinedColor, position: biggest.position, physicsMode: .Player)
-            //combinedPlanet.velocityVector = newVelocityVector
-            addChild(combinedPlanet)
+            addChild(newPlanet)
             planetCount--
+        }
+        
+        if contact.bodyA.node is PathDot || contact.bodyB.node is PathDot {
+            let pathDot : PathDot
+            let planet : Planet
+            if contact.bodyA.node is PathDot {
+                pathDot = contact.bodyA.node! as! PathDot
+                planet = contact.bodyB.node! as! Planet
+            }
+            else {
+                pathDot = contact.bodyB.node! as! PathDot
+                planet = contact.bodyA.node! as! Planet
+            }
+            
+            pathDot.removeFromParent()
         }
     }
     
@@ -166,7 +185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             touchTracker?.didMove(position)
         }
     }
-   
+    
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch in touches{
             let position = (touch as! UITouch).previousLocationInNode(self)
@@ -183,10 +202,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-}
-
-class TouchTracker {
-
+ }
+ 
+ class TouchTracker {
+    
     var touches : [Planet : CGPoint] = [:]
     
     func startTracking(touch: CGPoint){
@@ -196,7 +215,7 @@ class TouchTracker {
     
     func stopTracking(touch: CGPoint) -> Planet?{
         if var planet = getAssociatedPlanet(touch) {
-            planet.velocityVector = (planet.position.asVector() - touch.asVector()) / -20
+            planet.velocityVector = (planet.position.asVector() - touch.asVector()) / -40
             touches.removeValueForKey(planet)
             return planet
         }
@@ -220,12 +239,12 @@ class TouchTracker {
         return closest.planet
     }
     
-}
-
-func getRandomColor() -> SKColor{
+ }
+ 
+ func getRandomColor() -> SKColor{
     return SKColor(hue: random(min: 0.15, max: 1.0), saturation: random(min: 0.8, max: 1.0), brightness: random(min: 0.5, max: 0.8), alpha: 1.0)
-}
-
-func random(#min: CGFloat, #max: CGFloat) -> CGFloat {
+ }
+ 
+ func random(#min: CGFloat, #max: CGFloat) -> CGFloat {
     return CGFloat(Float(arc4random()) / 0xFFFFFFFF) * (max - min) + min
-}
+ }
