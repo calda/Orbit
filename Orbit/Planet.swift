@@ -27,6 +27,7 @@ class Planet : SKShapeNode{
     }
     var velocityVector = CGVectorMake(0, 0)
     var touch: PlanetTouch?
+    var bounced = false
     
     convenience init(radius: CGFloat, color: SKColor, position: CGPoint, physicsMode: PlanetPhysicsMode){
         self.init()
@@ -62,6 +63,67 @@ class Planet : SKShapeNode{
     func updatePosition(){
         if self.physicsMode.isStationary { return }
         self.position = CGPointMake(self.position.x + velocityVector.dx, self.position.y + velocityVector.dy)
+        
+        //bounce
+        if let parent = self.parent {
+            let parentWidth = parent.frame.size.width
+            let parentHeight = parent.frame.size.height
+            let radius = self.radius
+            
+            var xDistanceToEdge: CGFloat = 0.0
+            var yDistanceToEdge: CGFloat = 0.0
+            
+            if position.x < radius { //hitting left edge
+                xDistanceToEdge = position.x
+            }
+            else if position.x > (parentWidth - radius) { //hitting right edge
+                xDistanceToEdge = parentWidth - position.x
+            }
+            
+            if position.y < radius { //hitting top edge
+                yDistanceToEdge = position.y
+            }
+            else if position.y > (parentHeight - radius) { //hitting bottom edge
+                yDistanceToEdge = parentHeight - position.y
+            }
+            
+            if xDistanceToEdge == 0.0 && yDistanceToEdge == 0.0 {
+                self.xScale = 1.0
+                self.yScale = 1.0
+                bounced = false
+                return
+            }
+            
+            var xRatio = xDistanceToEdge / radius
+            var yRatio = yDistanceToEdge / radius
+            
+            if xRatio == 0.0 {
+                xRatio = 1 / yRatio
+            }
+            else if yRatio == 0.0 {
+                yRatio = 1 / xRatio
+            }
+            
+            println("x: \(xRatio)       y: \(yRatio)")
+            
+            self.xScale = xRatio
+            self.yScale = yRatio
+            
+            if xRatio < 0.5 && !bounced {
+                self.velocityVector = CGVectorMake(-self.velocityVector.dx, self.velocityVector.dy)
+                bounced = true
+            }
+            else if yRatio < 0.5 && !bounced {
+                self.velocityVector = CGVectorMake(self.velocityVector.dx, -self.velocityVector.dy)
+                bounced = true
+            }
+            
+            
+        }
+    }
+    
+    func killPlanet() {
+        self.removeFromParent()
     }
     
     func dumpStats(){
@@ -100,7 +162,7 @@ class Planet : SKShapeNode{
         
         return combinedPlanet
     }
-
+    
 }
 
 enum PlanetPhysicsMode : UInt32{
@@ -129,4 +191,5 @@ enum PlanetPhysicsMode : UInt32{
     }
     
 }
+
 

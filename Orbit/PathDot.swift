@@ -14,7 +14,7 @@ class PathDot : SKShapeNode {
     convenience init(position: CGPoint){
         self.init()
         self.init(circleOfRadius: 3)
-        self.fillColor = SKColor(hue: 0.0, saturation: 0.3, brightness: 0.5, alpha: 1.0)
+        self.fillColor = SKColor(hue: 0.0, saturation: 0.0, brightness: 0.6, alpha: 1.0)
         self.lineWidth = 5.0
         self.strokeColor = self.fillColor
         self.position = position
@@ -39,7 +39,15 @@ class PathDot : SKShapeNode {
         }
         
         for i in 0...100 {
-            scene.doForceCaculations()
+            for child in scene.children {
+                if let planet = child as? Planet {
+                    if planet != attached {
+                        attached.applyForcesOf(planet)
+                    }
+                }
+            }
+            attached.updatePosition()
+            
             if i % 10 == 0 {
                 let pathDot = PathDot(position: attached.position)
                 scene.addChild(pathDot)

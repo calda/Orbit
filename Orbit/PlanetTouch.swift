@@ -43,17 +43,21 @@ class PlanetTouch : SKShapeNode{
     }
     
     func drawPlanetPath() {
-        for anyChild in self.parent!.children {
-            if let dot = anyChild as? PathDot {
-                dot.removeFromParent()
-            }
-        }
+        clearDots()
         
         let tempPlanet = Planet(radius: 20, color: self.fillColor, position: self.position, physicsMode: .Player)
         tempPlanet.velocityVector = planetVelocity
         if let parent = self.parent {
             self.parent!.addChild(tempPlanet)
             PathDot.generatePathOnPlanet(tempPlanet, persistAttached: false, resetAll: true)
+        }
+    }
+    
+    func clearDots() {
+        for anyChild in self.parent!.children {
+            if let dot = anyChild as? PathDot {
+                dot.removeFromParent()
+            }
         }
     }
     
@@ -75,6 +79,7 @@ class TouchTracker {
         if var planet = getAssociatedPlanet(touch) {
             planet.velocityVector = (planet.position.asVector() - touch.asVector()) / -40
             touches.removeValueForKey(planet)
+            planet.touch?.clearDots()
             planet.touch?.removeFromParent()
             return planet
         }

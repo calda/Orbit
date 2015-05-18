@@ -73,21 +73,12 @@
         runAction(SKAction.repeatActionForever(updatePoints))
         
         let center = CGPointMake(screenSize.width / 2, screenSize.height / 2)
+
         
-        let planet1Origin = CGPointMake(center.x, center.y + 200)
-        let startPlanet1 = Planet(radius: 20, color: getRandomColor(), position: planet1Origin, physicsMode: .Scene)
-        startPlanet1.name = "StartPlanet1"
-        startPlanet1.velocityVector = CGVector(dx: 7.0, dy: 0)
+        let startPlanet1 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y - 250), physicsMode: .SceneStationary)
+        let startPlanet2 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y + 250), physicsMode: .SceneStationary)
         addChild(startPlanet1)
-        
-        /*let planet2Origin = CGPointMake(center.x, center.y - 200)
-        let startPlanet2 = Planet(radius: 20, color: getRandomColor(), position: planet2Origin, physicsMode: .Scene)
-        startPlanet2.velocityVector = CGVector(dx: -7.0, dy: 0)
-        startPlanet2.name = "StartPlanet2"
-        addChild(startPlanet2)*/
-        
-        let startPlanet3 = Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary)
-        addChild(startPlanet3)
+        addChild(startPlanet2)
         
         //game setup
         physicsWorld.contactDelegate = self
@@ -100,9 +91,9 @@
     
     func doForceCaculations() {
         for child in self.children{
-            /*if (child is PlanetTouch) {
-                (child as! PlanetTouch).drawPlanetPath()
-            }*/
+            if let touch = child as? PlanetTouch {
+                touch.drawPlanetPath()
+            }
             if !(child is Planet){ continue }
             let planet = child as! Planet
             for child in self.children{
@@ -112,11 +103,6 @@
                 planet.applyForcesOf(other)
             }
             planet.updatePosition()
-            let maxX = screenSize.width - planet.radius
-            let maxY = screenSize.height - planet.radius - 5
-            if planet.position.x > maxX || planet.position.x < planet.radius - 5 || planet.position.y > maxY || planet.position.y < planet.radius - 5 {
-                gameOver(planet)
-            }
         }
     }
     
