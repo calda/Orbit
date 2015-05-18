@@ -89,20 +89,20 @@
         let startPlanet3 = Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary)
         addChild(startPlanet3)
         
-        //Path Generator????????
-        PathDot.generatePathOnPlanet(startPlanet1, persistAttached: false, resetAll: true)
-        
         //game setup
         physicsWorld.contactDelegate = self
         let doCalculations = SKAction.sequence([
             SKAction.runBlock(doForceCaculations),
-            SKAction.waitForDuration(0.01)
+            SKAction.waitForDuration(0.005)
             ])
         runAction(SKAction.repeatActionForever(doCalculations))
     }
     
     func doForceCaculations() {
         for child in self.children{
+            /*if (child is PlanetTouch) {
+                (child as! PlanetTouch).drawPlanetPath()
+            }*/
             if !(child is Planet){ continue }
             let planet = child as! Planet
             for child in self.children{
@@ -138,21 +138,6 @@
             addChild(newPlanet)
             planetCount--
         }
-        
-        if contact.bodyA.node is PathDot || contact.bodyB.node is PathDot {
-            let pathDot : PathDot
-            let planet : Planet
-            if contact.bodyA.node is PathDot {
-                pathDot = contact.bodyA.node! as! PathDot
-                planet = contact.bodyB.node! as! Planet
-            }
-            else {
-                pathDot = contact.bodyB.node! as! PathDot
-                planet = contact.bodyA.node! as! Planet
-            }
-            
-            pathDot.removeFromParent()
-        }
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -174,7 +159,8 @@
             }
             for touch in touches{
                 let position = (touch as! UITouch).previousLocationInNode(self)
-                touchTracker?.startTracking(position)
+                let planetTouch = touchTracker!.startTracking(position)
+                self.addChild(planetTouch)
             }
         }
     }
@@ -196,47 +182,6 @@
                 }
             }
         }
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-        
-    }
-    
- }
- 
- class TouchTracker {
-    
-    var touches : [Planet : CGPoint] = [:]
-    
-    func startTracking(touch: CGPoint){
-        let newPlanet = Planet(radius: 20, color: getRandomColor(), position: touch, physicsMode: .Player)
-        touches.updateValue(touch, forKey: newPlanet)
-    }
-    
-    func stopTracking(touch: CGPoint) -> Planet?{
-        if var planet = getAssociatedPlanet(touch) {
-            planet.velocityVector = (planet.position.asVector() - touch.asVector()) / -40
-            touches.removeValueForKey(planet)
-            return planet
-        }
-        return nil
-    }
-    
-    func didMove(touch: CGPoint){
-        if var planet = getAssociatedPlanet(touch) {
-            touches.updateValue(touch, forKey: planet)
-        }
-    }
-    
-    func getAssociatedPlanet(touch : CGPoint) -> Planet?{
-        var closest : (distance: CGFloat, planet: Planet?, touch: CGPoint?) = (CGFloat.max, nil, nil)
-        for (planet, candidate) in touches{
-            var distanceSquared = touch.distanceSquaredTo(candidate)
-            if(closest.distance > distanceSquared){
-                closest = (distanceSquared, planet, candidate)
-            }
-        }
-        return closest.planet
     }
     
  }

@@ -26,6 +26,7 @@ class Planet : SKShapeNode{
         }
     }
     var velocityVector = CGVectorMake(0, 0)
+    var touch: PlanetTouch?
     
     convenience init(radius: CGFloat, color: SKColor, position: CGPoint, physicsMode: PlanetPhysicsMode){
         self.init()

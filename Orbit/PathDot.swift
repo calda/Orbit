@@ -38,7 +38,7 @@ class PathDot : SKShapeNode {
             }
         }
         
-        for i in 0...150 {
+        for i in 0...100 {
             scene.doForceCaculations()
             if i % 10 == 0 {
                 let pathDot = PathDot(position: attached.position)
@@ -63,7 +63,6 @@ class PathDot : SKShapeNode {
                 scene.addChild(replacement)
             }
         }
-        
     }
     
 }
