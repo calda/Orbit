@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */; };
 		2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A31B04CBA00020DB7A /* Main.storyboard */; };
 		2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A11B04CBA00020DB7A /* LaunchScreen.xib */; };
 		2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecorationPlanet.swift; sourceTree = "<group>"; };
 		2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetTouch.swift; sourceTree = "<group>"; };
 		446E27761B04CB220020DB7A /* Orbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446E277A1B04CB220020DB7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				446E27A71B04CBA00020DB7A /* GameScene.swift */,
 				446E27A91B04CBA00020DB7A /* Images.xcassets */,
 				446E27AB1B04CBA00020DB7A /* Planet.swift */,
+				2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */,
 				2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */,
 				446E27BC1B04D9410020DB7A /* PathDot.swift */,
 				446E27791B04CB220020DB7A /* Supporting Files */,
@@ -244,6 +247,7 @@
 				446E27BD1B04D9410020DB7A /* PathDot.swift in Sources */,
 				446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */,
 				446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */,
+				2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */,
 				446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */,
 				446E27B51B04CBA00020DB7A /* Planet.swift in Sources */,
 			);

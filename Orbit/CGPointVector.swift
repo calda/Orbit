@@ -19,6 +19,10 @@ extension CGPoint{
         return sqrt(distanceSquaredTo(other))
     }
     
+    func distanceVector(other: CGPoint) -> CGVector {
+        return CGVectorMake(self.x - other.x, self.y - other.y)
+    }
+    
     func asVector() -> CGVector {
         return CGVectorMake(x, y)
     }
@@ -34,6 +38,10 @@ extension CGVector : Printable {
 
 func + (left: CGVector, right: CGVector) -> CGVector {
     return CGVectorMake(left.dx + right.dx, left.dy + right.dy)
+}
+
+func + (left: CGVector, right: CGFloat) -> CGVector {
+    return CGVectorMake(left.dx + right, left.dy + right)
 }
 
 func - (left: CGVector, right: CGVector) -> CGVector {
@@ -54,6 +62,10 @@ func * (left: CGVector, right: CGFloat) -> CGVector {
 
 func / (left: CGVector, right: CGFloat) -> CGVector {
     return CGVectorMake(left.dx / right, left.dy / right)
+}
+
+func / (left: CGFloat, right: CGVector) -> CGVector {
+    return CGVectorMake(left / right.dx, left / right.dx)
 }
 
 func ^ (left: CGVector, right: CGFloat) -> CGVector {

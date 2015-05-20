@@ -38,6 +38,7 @@ class PathDot : SKShapeNode {
             }
         }
         
+        attached.isSimulated = true
         for i in 0...100 {
             for child in scene.children {
                 if let planet = child as? Planet {
@@ -46,6 +47,11 @@ class PathDot : SKShapeNode {
                     }
                 }
             }
+            
+            if attached.simulationDead {
+                break //simulated planet collided with other
+            }
+            
             attached.updatePosition()
             
             if i % 10 == 0 {
@@ -53,6 +59,7 @@ class PathDot : SKShapeNode {
                 scene.addChild(pathDot)
             }
         }
+        attached.isSimulated = false
         
         if !persistAttached {
             attached.removeFromParent()
@@ -71,6 +78,7 @@ class PathDot : SKShapeNode {
                 scene.addChild(replacement)
             }
         }
+        
     }
     
 }

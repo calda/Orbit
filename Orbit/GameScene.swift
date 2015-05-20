@@ -75,10 +75,12 @@
         let center = CGPointMake(screenSize.width / 2, screenSize.height / 2)
 
         
-        let startPlanet1 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y - 250), physicsMode: .SceneStationary)
+        /*let startPlanet1 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y - 250), physicsMode: .SceneStationary)
         let startPlanet2 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y + 250), physicsMode: .SceneStationary)
         addChild(startPlanet1)
-        addChild(startPlanet2)
+        addChild(startPlanet2)*/
+        
+        //addChild(Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary))
         
         //game setup
         physicsWorld.contactDelegate = self

@@ -11,7 +11,7 @@ import SpriteKit
 
 class Planet : SKShapeNode{
     
-    let GRAVITATIONAL_CONSTANT : CGFloat = 0.0000325
+    let GRAVITATIONAL_CONSTANT : CGFloat = 0.008125
     var physicsMode : PlanetPhysicsMode = PlanetPhysicsMode.None
     var deservesUpdate : Bool = true
     var radius : CGFloat = 0
@@ -27,7 +27,12 @@ class Planet : SKShapeNode{
     }
     var velocityVector = CGVectorMake(0, 0)
     var touch: PlanetTouch?
-    var bounced = false
+    
+    var portalPlanet: DecorationPlanet?
+    var doingPortalPlanet: Bool = false
+    
+    var isSimulated: Bool = false
+    var simulationDead: Bool = false
     
     convenience init(radius: CGFloat, color: SKColor, position: CGPoint, physicsMode: PlanetPhysicsMode){
         self.init()
@@ -53,72 +58,108 @@ class Planet : SKShapeNode{
         
         let distance = CGVectorMake(other.position.x - self.position.x, other.position.y - self.position.y)
         let distanceSquared = distance.dx * distance.dx + distance.dy * distance.dy
-        if (distanceSquared < pow(self.radius * 1.1, 2) || distanceSquared < pow(self.radius * 1.1, 2)) {
+        
+        let largestRadius = max(self.radius, other.radius)
+        if (distanceSquared < pow(largestRadius, 2) || distanceSquared < pow(largestRadius, 2)) {
+            simulationDead = true
             return //prevent acceleration during collision
         }
-        let acceleration = distance / (abs(distance.dx) + abs(distance.dy))
-        velocityVector = velocityVector + (acceleration * other.gravity * GRAVITATIONAL_CONSTANT)
+        let acceleration = distance / pow((abs(distance.dx) + abs(distance.dy)), 2)
+        
+        var slowDown: CGFloat = 1.0
+        if TouchTracker.touches.count > 0 && !isSimulated {
+            slowDown = 0.2
+        }
+        
+        velocityVector = velocityVector + (acceleration * other.gravity * GRAVITATIONAL_CONSTANT * slowDown)
     }
     
     func updatePosition(){
         if self.physicsMode.isStationary { return }
-        self.position = CGPointMake(self.position.x + velocityVector.dx, self.position.y + velocityVector.dy)
         
-        //bounce
+        var slowDown: CGFloat = 1.0
+        if TouchTracker.touches.count > 0 && !isSimulated {
+            slowDown = 0.2
+        }
+        
+        let adjustedVelocity = velocityVector * slowDown
+        
+        self.position = CGPointMake(self.position.x + adjustedVelocity.dx, self.position.y + adjustedVelocity.dy)
+        
+        //retract touch tail
+        if let touch = self.touch {
+            touch.position = self.position
+            let done = touch.showVelocity(self.velocityVector)
+            if done {
+                self.touch = nil
+                touch.removeFromParent()
+            }
+        }
+        
+        //portal
         if let parent = self.parent {
             let parentWidth = parent.frame.size.width
             let parentHeight = parent.frame.size.height
             let radius = self.radius
             
-            var xDistanceToEdge: CGFloat = 0.0
-            var yDistanceToEdge: CGFloat = 0.0
-            
-            if position.x < radius { //hitting left edge
-                xDistanceToEdge = position.x
+            //warps
+            if position.x < 0 { //hitting left edge
+                position.x = parentWidth
             }
-            else if position.x > (parentWidth - radius) { //hitting right edge
-                xDistanceToEdge = parentWidth - position.x
+            else if position.x > parentWidth { //hitting right edge
+                position.x = 0
             }
             
-            if position.y < radius { //hitting top edge
-                yDistanceToEdge = position.y
+            if position.y < 0 { //hitting top edge
+                position.y = parentHeight
             }
-            else if position.y > (parentHeight - radius) { //hitting bottom edge
-                yDistanceToEdge = parentHeight - position.y
-            }
-            
-            if xDistanceToEdge == 0.0 && yDistanceToEdge == 0.0 {
-                self.xScale = 1.0
-                self.yScale = 1.0
-                bounced = false
-                return
+            else if position.y > parentHeight { //hitting bottom edge
+                position.y = 0
             }
             
-            var xRatio = xDistanceToEdge / radius
-            var yRatio = yDistanceToEdge / radius
+            //poral decorations
+            killPortalPlanet()
             
-            if xRatio == 0.0 {
-                xRatio = 1 / yRatio
+            if !isSimulated {
+                if position.x < self.radius {
+                    ensurePortalPlanet()
+                    self.portalPlanet!.position.x = parentWidth + position.x
+                }
+                if position.x > parentWidth - self.radius {
+                    ensurePortalPlanet()
+                    self.portalPlanet!.position.x = position.x - parentWidth
+                }
+                
+                if position.y < self.radius {
+                    ensurePortalPlanet()
+                    self.portalPlanet!.position.y = parentHeight + position.y
+                }
+                if position.y > parentHeight - self.radius {
+                    ensurePortalPlanet()
+                    self.portalPlanet!.position.y = position.y - parentHeight
+                }
+                
+                doingPortalPlanet = false
             }
-            else if yRatio == 0.0 {
-                yRatio = 1 / xRatio
-            }
             
-            println("x: \(xRatio)       y: \(yRatio)")
-            
-            self.xScale = xRatio
-            self.yScale = yRatio
-            
-            if xRatio < 0.5 && !bounced {
-                self.velocityVector = CGVectorMake(-self.velocityVector.dx, self.velocityVector.dy)
-                bounced = true
-            }
-            else if yRatio < 0.5 && !bounced {
-                self.velocityVector = CGVectorMake(self.velocityVector.dx, -self.velocityVector.dy)
-                bounced = true
-            }
-            
-            
+        }
+    }
+    
+    func ensurePortalPlanet() {
+        if portalPlanet == nil {
+            self.portalPlanet = DecorationPlanet(radius: self.radius, color: self.fillColor, position: self.position)
+            self.parent!.addChild(portalPlanet!)
+        }
+        if !doingPortalPlanet {
+            doingPortalPlanet = true
+            self.portalPlanet!.position = self.position
+        }
+    }
+    
+    func killPortalPlanet() {
+        if portalPlanet != nil {
+            self.portalPlanet!.removeFromParent()
+            self.portalPlanet = nil
         }
     }
     
@@ -131,12 +172,33 @@ class Planet : SKShapeNode{
     }
     
     func mergeWithPlanet(other: Planet) -> Planet {
+        //clean up existing planets
+        killPortalPlanet()
+        other.killPortalPlanet()
+        
+        if let touch = self.touch {
+            touch.removeFromParent()
+            self.touch = nil
+        }
+        if let touch = other.touch {
+            touch.removeFromParent()
+            other.touch = nil
+        }
+        
+        //merge planets
         let planet1 = self
         let planet2 = other
         
         removeChildrenInArray([planet1, planet2])
-        let biggest = (planet1.radius >= planet2.radius ? planet1 : planet2)
-        let smallest = (planet1.radius >= planet2.radius ? planet2 : planet1)
+        var biggest = (planet1.radius >= planet2.radius ? planet1 : planet2)
+        var smallest = (planet1.radius >= planet2.radius ? planet2 : planet1)
+        
+        //stationary will always absorb non-stationary
+        if smallest.physicsMode.isStationary {
+            let oldBig = biggest
+            biggest = smallest
+            smallest = oldBig
+        }
 
         let newMass = biggest.mass + smallest.mass * 2
         let newRadius = pow(newMass / (4/3) / (3.14), 1/3)
