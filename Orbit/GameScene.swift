@@ -120,11 +120,10 @@
             let planet1 = contact.bodyA.node as! Planet
             let planet2 = contact.bodyB.node as! Planet
             
-            let newPlanet = planet1.mergeWithPlanet(planet2)
-            
-            removeChildrenInArray([planet1, planet2])
-            addChild(newPlanet)
-            planetCount--
+            if let newPlanet = planet1.mergeWithPlanet(planet2) {
+                addChild(newPlanet)
+                planetCount--
+            }
         }
     }
     
@@ -147,8 +146,9 @@
             }
             for touch in touches{
                 let position = (touch as! UITouch).previousLocationInNode(self)
-                let planetTouch = touchTracker!.startTracking(position)
-                self.addChild(planetTouch)
+                if let planetTouch = touchTracker!.startTracking(position) {
+                    self.addChild(planetTouch)
+                }
             }
         }
     }

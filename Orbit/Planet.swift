@@ -15,8 +15,10 @@ class Planet : SKShapeNode{
     var physicsMode : PlanetPhysicsMode = PlanetPhysicsMode.None
     var deservesUpdate : Bool = true
     var radius : CGFloat = 0
+    var hasMass = true
     var mass : CGFloat {
         get{
+            if !hasMass { return 0.0 }
             return pow(radius, 3) * 3.14 * (4/3)
         }
     }
@@ -171,7 +173,12 @@ class Planet : SKShapeNode{
         println("Planet: radius=\(radius)  mass=\(mass)  location=\(position)")
     }
     
-    func mergeWithPlanet(other: Planet) -> Planet {
+    func mergeWithPlanet(other: Planet) -> Planet? {
+        
+        if !other.hasMass || !self.hasMass {
+            return nil
+        }
+        
         //clean up existing planets
         killPortalPlanet()
         other.killPortalPlanet()
@@ -219,8 +226,27 @@ class Planet : SKShapeNode{
         
         let combinedMode = planet1.physicsMode.mergeWith(planet2.physicsMode)
         
-        let combinedPlanet = Planet(radius: newRadius, color: combinedColor, position: biggest.position, physicsMode: combinedMode)
+        let combinedPlanet = Planet(radius: newRadius, color: biggest.fillColor, position: biggest.position, physicsMode: combinedMode)
         combinedPlanet.velocityVector = newVelocityVector
+        
+        biggest.removeFromParent()
+        
+        //animate size changes
+        smallest.hasMass = false
+        smallest.runAction(SKAction.scaleTo(0.0, duration: 0.15), completion: {
+            smallest.removeFromParent()
+        })
+        
+        let sizeRatio = biggest.radius / combinedPlanet.radius
+        combinedPlanet.setScale(sizeRatio)
+        let grow = SKAction.group([
+            SKAction.scaleTo(1.0, duration: 0.3),
+            SKAction.colorizeWithColor(combinedColor, colorBlendFactor: 1.0, duration: 0.3)
+        ])
+        combinedPlanet.runAction(grow, completion: {
+            combinedPlanet.fillColor = combinedColor
+            combinedPlanet.strokeColor = combinedColor
+        })
         
         return combinedPlanet
     }
