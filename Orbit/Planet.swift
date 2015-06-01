@@ -168,6 +168,12 @@ class Planet : SKShapeNode{
     func killPlanet() {
         self.removeFromParent()
     }
+    override func removeFromParent() {
+        if let parent = self.parent as? GameScene {
+            parent.markPlanetRemoved(self)
+        }
+        super.removeFromParent()
+    }
     
     func dumpStats(){
         println("Planet: radius=\(radius)  mass=\(mass)  location=\(position)")
@@ -233,7 +239,11 @@ class Planet : SKShapeNode{
         
         //animate size changes
         smallest.hasMass = false
-        smallest.runAction(SKAction.scaleTo(0.0, duration: 0.15), completion: {
+        let shrink = SKAction.group([
+            SKAction.scaleTo(0.0, duration: 0.15),
+            SKAction.fadeAlphaTo(0.0, duration: 0.05)
+        ])
+        smallest.runAction(shrink, completion: {
             smallest.removeFromParent()
         })
         

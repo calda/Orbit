@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */; };
+		2E5B84C81B1BD40B00E08FD5 /* CAAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */; };
+		2E5B84CA1B1BE59A00E08FD5 /* main menu planet.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */; };
+		2E5B84CC1B1BEF8B00E08FD5 /* planet.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5B84CB1B1BEF8B00E08FD5 /* planet.png */; };
 		2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A31B04CBA00020DB7A /* Main.storyboard */; };
 		2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A11B04CBA00020DB7A /* LaunchScreen.xib */; };
 		2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */; };
@@ -15,7 +18,7 @@
 		446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27A51B04CBA00020DB7A /* CGPointVector.swift */; };
 		446E27B01B04CBA00020DB7A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A61B04CBA00020DB7A /* GameScene.sks */; };
 		446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27A71B04CBA00020DB7A /* GameScene.swift */; };
-		446E27B21B04CBA00020DB7A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27A81B04CBA00020DB7A /* GameViewController.swift */; };
+		446E27B21B04CBA00020DB7A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27A81B04CBA00020DB7A /* MainViewController.swift */; };
 		446E27B31B04CBA00020DB7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A91B04CBA00020DB7A /* Images.xcassets */; };
 		446E27B51B04CBA00020DB7A /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27AB1B04CBA00020DB7A /* Planet.swift */; };
 		446E27B71B04CC150020DB7A /* OrbitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27B61B04CC150020DB7A /* OrbitTests.swift */; };
@@ -34,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecorationPlanet.swift; sourceTree = "<group>"; };
+		2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAAnimationDelegate.swift; sourceTree = "<group>"; };
+		2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main menu planet.png"; sourceTree = "<group>"; };
+		2E5B84CB1B1BEF8B00E08FD5 /* planet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet.png; sourceTree = "<group>"; };
 		2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetTouch.swift; sourceTree = "<group>"; };
 		446E27761B04CB220020DB7A /* Orbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446E277A1B04CB220020DB7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,7 +50,7 @@
 		446E27A51B04CBA00020DB7A /* CGPointVector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointVector.swift; sourceTree = "<group>"; };
 		446E27A61B04CBA00020DB7A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		446E27A71B04CBA00020DB7A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		446E27A81B04CBA00020DB7A /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		446E27A81B04CBA00020DB7A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		446E27A91B04CBA00020DB7A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		446E27AB1B04CBA00020DB7A /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		446E27B61B04CC150020DB7A /* OrbitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitTests.swift; sourceTree = "<group>"; };
@@ -70,6 +76,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E5B84C61B1BD3E600E08FD5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				446E27A51B04CBA00020DB7A /* CGPointVector.swift */,
+				2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		446E276D1B04CB220020DB7A = {
 			isa = PBXGroup;
 			children = (
@@ -91,17 +106,18 @@
 		446E27781B04CB220020DB7A /* Orbit */ = {
 			isa = PBXGroup;
 			children = (
+				446E27A11B04CBA00020DB7A /* LaunchScreen.xib */,
 				446E279F1B04CBA00020DB7A /* AppDelegate.swift */,
-				446E27A81B04CBA00020DB7A /* GameViewController.swift */,
+				446E27A31B04CBA00020DB7A /* Main.storyboard */,
+				446E27A81B04CBA00020DB7A /* MainViewController.swift */,
 				446E27A61B04CBA00020DB7A /* GameScene.sks */,
-				446E27A01B04CBA00020DB7A /* Base.lproj */,
-				446E27A51B04CBA00020DB7A /* CGPointVector.swift */,
 				446E27A71B04CBA00020DB7A /* GameScene.swift */,
 				446E27A91B04CBA00020DB7A /* Images.xcassets */,
 				446E27AB1B04CBA00020DB7A /* Planet.swift */,
 				2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */,
 				2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */,
 				446E27BC1B04D9410020DB7A /* PathDot.swift */,
+				2E5B84C61B1BD3E600E08FD5 /* Extensions */,
 				446E27791B04CB220020DB7A /* Supporting Files */,
 			);
 			path = Orbit;
@@ -110,6 +126,8 @@
 		446E27791B04CB220020DB7A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2E5B84CB1B1BEF8B00E08FD5 /* planet.png */,
+				2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */,
 				446E277A1B04CB220020DB7A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -122,7 +140,7 @@
 				446E27931B04CB220020DB7A /* Supporting Files */,
 			);
 			path = OrbitTests;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		446E27931B04CB220020DB7A /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -130,15 +148,6 @@
 				446E27B81B04CC1A0020DB7A /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		446E27A01B04CBA00020DB7A /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				446E27A11B04CBA00020DB7A /* LaunchScreen.xib */,
-				446E27A31B04CBA00020DB7A /* Main.storyboard */,
-			);
-			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +232,8 @@
 			files = (
 				2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */,
 				2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */,
+				2E5B84CA1B1BE59A00E08FD5 /* main menu planet.png in Resources */,
+				2E5B84CC1B1BEF8B00E08FD5 /* planet.png in Resources */,
 				446E27B31B04CBA00020DB7A /* Images.xcassets in Resources */,
 				446E27B01B04CBA00020DB7A /* GameScene.sks in Resources */,
 			);
@@ -243,10 +254,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */,
-				446E27B21B04CBA00020DB7A /* GameViewController.swift in Sources */,
+				446E27B21B04CBA00020DB7A /* MainViewController.swift in Sources */,
 				446E27BD1B04D9410020DB7A /* PathDot.swift in Sources */,
 				446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */,
 				446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */,
+				2E5B84C81B1BD40B00E08FD5 /* CAAnimationDelegate.swift in Sources */,
 				2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */,
 				446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */,
 				446E27B51B04CBA00020DB7A /* Planet.swift in Sources */,
@@ -278,6 +290,7 @@
 				446E27A21B04CBA00020DB7A /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 		446E27A31B04CBA00020DB7A /* Main.storyboard */ = {
@@ -286,6 +299,7 @@
 				446E27A41B04CBA00020DB7A /* Base */,
 			);
 			name = Main.storyboard;
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

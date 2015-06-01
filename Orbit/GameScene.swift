@@ -11,84 +11,94 @@
  
  class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var planetCount: Int = 2 {
-        willSet(newCount) {
-            let plural = "s"
-            let singular = ""
-            (self.childNodeWithName("GUI")!.childNodeWithName("PlanetCount")! as! SKLabelNode).text = "\(newCount) planet\(newCount == 1 ? singular : plural)"
-            (self.childNodeWithName("GUI")!.childNodeWithName("PPS")! as! SKLabelNode).text = "\(max(newCount - 1, 0)) point\((newCount - 1) == 1 ? singular : plural) per second"
-        }
-    }
-    var points: Int = 0 {
-        willSet(newPoints) {
-            (self.childNodeWithName("GUI")!.childNodeWithName("Points")! as! SKLabelNode).text = "\(newPoints)"
-        }
-    }
     var touchTracker : TouchTracker? = nil
     let GUINode = SKNode()
-    let gameOverLabel = SKLabelNode(fontNamed: "HelveticaNeue-UltraLight")
-    var screenSize : (width: CGFloat, height: CGFloat) = (0, 0)
+    var screenSize : CGSize = CGSizeMake(0, 0)
+    var edgeLayer: CAShapeLayer?
+    
+    var planets: [Planet] = []
+    
+    
+    //pragma MARK: - Game Setup
     
     override func didMoveToView(view: SKView) {
         //GUI setup
         GUINode.name = "GUI"
-        screenSize = (760, 1365)
-        let countLabel = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
-        countLabel.name = "PlanetCount"
-        countLabel.text = "2 planets"
-        countLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.15, alpha: 1)
-        countLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        countLabel.fontSize = 60
-        countLabel.position = CGPointMake(20, 20)
-        GUINode.addChild(countLabel)
-        let pointsLabel = SKLabelNode(fontNamed: "HelveticaNeue-UltraLight")
-        pointsLabel.name = "Points"
-        pointsLabel.text = "200"
-        pointsLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.25, alpha: 1)
-        pointsLabel.fontSize = 150
-        pointsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        pointsLabel.position = CGPointMake(20, screenSize.height - 120)
-        GUINode.addChild(pointsLabel)
-        gameOverLabel.name = "GameOver"
-        gameOverLabel.text = "game over"
-        gameOverLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.25, alpha: 1)
-        gameOverLabel.fontSize = 140
-        gameOverLabel.position = CGPointMake(screenSize.width / 2, screenSize.height / 2)
-        gameOverLabel.hidden = true
-        GUINode.addChild(gameOverLabel)
-        let ppsLabel = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
-        ppsLabel.name = "PPS"
-        ppsLabel.text = "1 point per second"
-        ppsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        ppsLabel.fontColor = UIColor(hue: 0, saturation: 0, brightness: 0.15, alpha: 1)
-        ppsLabel.fontSize = 40
-        ppsLabel.position = CGPointMake(screenSize.width - 10, 20)
-        GUINode.addChild(ppsLabel)
-        GUINode.zPosition = 100
-        addChild(GUINode)
-        let updatePoints = SKAction.sequence([
-            SKAction.runBlock({ self.points += max(self.planetCount - 1, 0) }),
-            SKAction.waitForDuration(0.5)
-            ])
-        runAction(SKAction.repeatActionForever(updatePoints))
+        screenSize = CGSizeMake(760, 1365)
+        addEdgePath(screenSize)
         
         let center = CGPointMake(screenSize.width / 2, screenSize.height / 2)
-
-        
-        /*let startPlanet1 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y - 250), physicsMode: .SceneStationary)
-        let startPlanet2 = Planet(radius: 40, color: getRandomColor(), position: CGPointMake(center.x, center.y + 250), physicsMode: .SceneStationary)
-        addChild(startPlanet1)
-        addChild(startPlanet2)*/
-        
-        //addChild(Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary))
+        addChild(Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary))
         
         //game setup
         physicsWorld.contactDelegate = self
         let doCalculations = SKAction.sequence([
-            SKAction.runBlock(doForceCaculations),
+            SKAction.runBlock(doGameLoop),
             SKAction.waitForDuration(0.005)
             ])
         runAction(SKAction.repeatActionForever(doCalculations))
+    }
+    
+    func addEdgePath(screenSize: CGSize) {
+        
+        let width = self.view!.frame.width
+        let height = self.view!.frame.height
+        
+        let mutable = CGPathCreateMutable()
+        CGPathMoveToPoint(mutable, nil, width / 2, 0)
+        CGPathAddLineToPoint(mutable, nil, 0, 0)
+        CGPathAddLineToPoint(mutable, nil, 0, height)
+        CGPathAddLineToPoint(mutable, nil, width, height)
+        CGPathAddLineToPoint(mutable, nil, width, 0)
+        CGPathAddLineToPoint(mutable, nil, width / 2, 0)
+        let path = CGPathCreateMutableCopy(mutable)
+        
+        edgeLayer = CAShapeLayer()
+        edgeLayer!.frame = self.frame
+        edgeLayer!.path = path
+        edgeLayer!.strokeColor = UIColor(hue: 0.333, saturation: 0.6, brightness: 0.6, alpha: 1.0).CGColor
+        edgeLayer!.fillColor = nil
+        edgeLayer!.lineWidth = 20.0
+        edgeLayer!.strokeEnd = 0.0
+        self.view!.layer.addSublayer(edgeLayer!)
+    }
+    
+    
+    //pragma MARK: - Planet Management
+    
+    override func addChild(node: SKNode) {
+        if node is Planet && !(node is DummyPlanet) {
+            planets.append(node as! Planet)
+        }
+        super.addChild(node)
+    }
+    
+    override func removeChildrenInArray(nodes: [AnyObject]!) {
+        for node in nodes {
+            if let planet = node as? Planet {
+                planet.removeFromParent()
+            }
+        }
+    }
+    
+    func markPlanetRemoved(planet: Planet) {
+        var index: Int?
+        for i in 0 ..< planets.count {
+            if planets[i] == planet {
+                index = i
+            }
+        }
+        if let index = index {
+            planets.removeAtIndex(index)
+        }
+    }
+    
+    
+    //pragma MARK: - Game Loop Methods
+    
+    func doGameLoop() {
+        doForceCaculations()
+        checkLevelCompletion()
     }
     
     func doForceCaculations() {
@@ -108,11 +118,57 @@
         }
     }
     
-    func gameOver(loser: Planet){
-        self.paused = true
-        self.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1)
-        loser.fillColor = UIColor.blackColor()
-        gameOverLabel.hidden = false
+    func checkLevelCompletion() {
+        var neededPlanets = 3
+        
+        func createAnimationNamed(name: String, #fill: Bool, #current: CGFloat) {
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
+            animation.fromValue = edgeLayer?.strokeEnd
+            animation.toValue = (fill ? 1.0 : 0.0)
+            if fill {
+                animation.duration = (1.0 - Double(current)) * 3.0
+            } else {
+                animation.duration = Double(current) * 1.0
+            }
+            animation.removedOnCompletion = false
+            animation.fillMode = kCAFillModeForwards
+            edgeLayer?.addAnimation(animation, forKey: name)
+        }
+        
+        if let edgeLayer = edgeLayer {
+            
+            var current: CGFloat = 0.0
+            
+            if let presentation = edgeLayer.presentationLayer() as? CAShapeLayer {
+                current = presentation.strokeEnd
+            }
+            
+            if TouchTracker.countTouches() != 0 {
+                edgeLayer.removeAllAnimations()
+                edgeLayer.strokeEnd = current
+                return
+            }
+            
+            if planets.count == neededPlanets {
+                if edgeLayer.animationForKey("drain") != nil {
+                    edgeLayer.removeAnimationForKey("drain")
+                    edgeLayer.strokeEnd = current
+                }
+                if edgeLayer.animationForKey("fill") == nil && edgeLayer.strokeEnd < 1.0 {
+                    createAnimationNamed("fill", fill: true, current: current)
+                }
+            }
+            else {
+                if edgeLayer.animationForKey("fill") != nil {
+                    edgeLayer.removeAnimationForKey("fill")
+                    edgeLayer.strokeEnd = current
+                }
+                if edgeLayer.animationForKey("drain") == nil && edgeLayer.strokeEnd > 0.0 {
+                    createAnimationNamed("drain", fill: false, current: current)
+                }
+            }
+        }
+        
     }
     
     func didBeginContact(contact: SKPhysicsContact){
@@ -122,33 +178,18 @@
             
             if let newPlanet = planet1.mergeWithPlanet(planet2) {
                 addChild(newPlanet)
-                planetCount--
             }
         }
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        if !gameOverLabel.hidden {
-            for node in self.children{
-                if node is Planet {
-                    self.removeChildrenInArray([node])
-                }
-            }
-            points = 0
-            planetCount = 0
-            backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0.95, alpha: 1)
-            self.paused = false
-            gameOverLabel.hidden = true
-            touchTracker = nil
-        } else {
-            if touchTracker == nil{
-                touchTracker = TouchTracker()
-            }
-            for touch in touches{
-                let position = (touch as! UITouch).previousLocationInNode(self)
-                if let planetTouch = touchTracker!.startTracking(position) {
-                    self.addChild(planetTouch)
-                }
+        if touchTracker == nil{
+            touchTracker = TouchTracker()
+        }
+        for touch in touches{
+            let position = (touch as! UITouch).previousLocationInNode(self)
+            if let planetTouch = touchTracker!.startTracking(position) {
+                self.addChild(planetTouch)
             }
         }
     }
@@ -166,7 +207,6 @@
             if touchTracker != nil{
                 if var planet = touchTracker!.stopTracking(position) {
                     addChild(planet)
-                    planetCount++
                 }
             }
         }
@@ -174,10 +214,18 @@
     
  }
  
+ 
+ //pragma MARK: - Utility Functions
+ 
  func getRandomColor() -> SKColor{
     return SKColor(hue: random(min: 0.15, max: 1.0), saturation: random(min: 0.8, max: 1.0), brightness: random(min: 0.5, max: 0.8), alpha: 1.0)
  }
  
  func random(#min: CGFloat, #max: CGFloat) -> CGFloat {
     return CGFloat(Float(arc4random()) / 0xFFFFFFFF) * (max - min) + min
+ }
+ 
+ func delay(delay:Double, closure:()->()) {
+    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+    dispatch_after(time, dispatch_get_main_queue(), closure)
  }

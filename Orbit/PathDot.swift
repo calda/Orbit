@@ -39,7 +39,7 @@ class PathDot : SKShapeNode {
         }
         
         attached.isSimulated = true
-        for i in 0...100 {
+        for i in 0...50 {
             for child in scene.children {
                 if let planet = child as? Planet {
                     if planet != attached {
@@ -54,7 +54,7 @@ class PathDot : SKShapeNode {
             
             attached.updatePosition()
             
-            if i % 10 == 0 {
+            if i % 5 == 0 {
                 let pathDot = PathDot(position: attached.position)
                 scene.addChild(pathDot)
             }
