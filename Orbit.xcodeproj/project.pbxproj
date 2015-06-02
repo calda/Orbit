@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */; };
+		2E54FB431B1D60220006E485 /* appsis.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E54FB421B1D60220006E485 /* appsis.png */; };
+		2E54FB451B1D61B00006E485 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E54FB441B1D61B00006E485 /* LaunchViewController.swift */; };
 		2E5B84C81B1BD40B00E08FD5 /* CAAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */; };
 		2E5B84CA1B1BE59A00E08FD5 /* main menu planet.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */; };
 		2E5B84CC1B1BEF8B00E08FD5 /* planet.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5B84CB1B1BEF8B00E08FD5 /* planet.png */; };
+		2E8EEDE41B1D1AD0002884DE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */; };
+		2E8EEDE61B1D1B65002884DE /* GameSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8EEDE51B1D1B65002884DE /* GameSegue.swift */; };
 		2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A31B04CBA00020DB7A /* Main.storyboard */; };
 		2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A11B04CBA00020DB7A /* LaunchScreen.xib */; };
 		2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */; };
@@ -37,9 +41,13 @@
 
 /* Begin PBXFileReference section */
 		2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecorationPlanet.swift; sourceTree = "<group>"; };
+		2E54FB421B1D60220006E485 /* appsis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appsis.png; sourceTree = "<group>"; };
+		2E54FB441B1D61B00006E485 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAAnimationDelegate.swift; sourceTree = "<group>"; };
 		2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main menu planet.png"; sourceTree = "<group>"; };
 		2E5B84CB1B1BEF8B00E08FD5 /* planet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet.png; sourceTree = "<group>"; };
+		2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		2E8EEDE51B1D1B65002884DE /* GameSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSegue.swift; sourceTree = "<group>"; };
 		2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetTouch.swift; sourceTree = "<group>"; };
 		446E27761B04CB220020DB7A /* Orbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446E277A1B04CB220020DB7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -81,6 +89,7 @@
 			children = (
 				446E27A51B04CBA00020DB7A /* CGPointVector.swift */,
 				2E5B84C71B1BD40B00E08FD5 /* CAAnimationDelegate.swift */,
+				2E8EEDE51B1D1B65002884DE /* GameSegue.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -107,10 +116,12 @@
 			isa = PBXGroup;
 			children = (
 				446E27A11B04CBA00020DB7A /* LaunchScreen.xib */,
+				2E54FB441B1D61B00006E485 /* LaunchViewController.swift */,
 				446E279F1B04CBA00020DB7A /* AppDelegate.swift */,
 				446E27A31B04CBA00020DB7A /* Main.storyboard */,
 				446E27A81B04CBA00020DB7A /* MainViewController.swift */,
 				446E27A61B04CBA00020DB7A /* GameScene.sks */,
+				2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */,
 				446E27A71B04CBA00020DB7A /* GameScene.swift */,
 				446E27A91B04CBA00020DB7A /* Images.xcassets */,
 				446E27AB1B04CBA00020DB7A /* Planet.swift */,
@@ -128,6 +139,7 @@
 			children = (
 				2E5B84CB1B1BEF8B00E08FD5 /* planet.png */,
 				2E5B84C91B1BE59A00E08FD5 /* main menu planet.png */,
+				2E54FB421B1D60220006E485 /* appsis.png */,
 				446E277A1B04CB220020DB7A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -234,6 +246,7 @@
 				2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */,
 				2E5B84CA1B1BE59A00E08FD5 /* main menu planet.png in Resources */,
 				2E5B84CC1B1BEF8B00E08FD5 /* planet.png in Resources */,
+				2E54FB431B1D60220006E485 /* appsis.png in Resources */,
 				446E27B31B04CBA00020DB7A /* Images.xcassets in Resources */,
 				446E27B01B04CBA00020DB7A /* GameScene.sks in Resources */,
 			);
@@ -253,11 +266,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E8EEDE41B1D1AD0002884DE /* GameViewController.swift in Sources */,
+				2E8EEDE61B1D1B65002884DE /* GameSegue.swift in Sources */,
 				2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */,
 				446E27B21B04CBA00020DB7A /* MainViewController.swift in Sources */,
 				446E27BD1B04D9410020DB7A /* PathDot.swift in Sources */,
 				446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */,
 				446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */,
+				2E54FB451B1D61B00006E485 /* LaunchViewController.swift in Sources */,
 				2E5B84C81B1BD40B00E08FD5 /* CAAnimationDelegate.swift in Sources */,
 				2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */,
 				446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */,

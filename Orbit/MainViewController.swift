@@ -7,25 +7,8 @@
 //
 
 import UIKit
-import SpriteKit
 
-extension SKNode {
-    class func unarchiveFromFile(file : NSString) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks") {
-            var sceneData = NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe, error: nil)!
-            var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! GameScene
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-}
-
-class GameViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var planet1: UIImageView!
@@ -34,8 +17,6 @@ class GameViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     @IBOutlet weak var planet4: UIImageView!
     @IBOutlet weak var levelCollection: UICollectionView!
     @IBOutlet weak var levelCollectionHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var gameView: SKView!
     
     override func viewDidLoad() {
         planet1.transform = CGAffineTransformRotate(planet1.transform, CGFloat(M_PI))
@@ -70,25 +51,16 @@ class GameViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     //pragma MARK: - Presenting the Game Scene
     
     @IBAction func presentSandbox(sender: UIButton) {
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-            gameView.showsFPS = false
-            gameView.showsNodeCount = false
-            gameView.ignoresSiblingOrder = true
-            scene.scaleMode = .AspectFill
-            gameView.presentScene(scene)
-            
-            
-            gameView.alpha = 0.0
-            gameView.hidden = false
-            
-            let scrollScale = CGAffineTransformScale(scrollView.transform, CGFloat(0.5), CGFloat(0.5))
-            UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: nil, animations: {
-                self.gameView.alpha = 1.0
-                self.scrollView.transform = scrollScale
-            }, completion: nil)
-        }
+        
     }
     
+    @IBAction func unwind(sender: UIStoryboardSegue) {
+        
+    }
+    
+    override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue {
+        return GameSegueUnwind(identifier: identifier, source: fromViewController, destination: toViewController, performHandler: {})
+    }
     
     //pragma MARK: - Collection view for Levels
     
