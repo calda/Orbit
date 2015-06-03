@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>1-1</key>
+	<dict>
+		<key>Goal</key>
+		<string>1</string>
+		<key>Planets</key>
+		<array/>
+	</dict>
+	<key>1-2</key>
+	<dict>
+		<key>Goal</key>
+		<string>2</string>
+		<key>Planets</key>
+		<array>
+			<dict>
+				<key>Type</key>
+				<string>Planet</string>
+				<key>Position</key>
+				<string>50,50</string>
+				<key>Velocity</key>
+				<string>0,0</string>
+				<key>Radius</key>
+				<string>40</string>
+			</dict>
+		</array>
+	</dict>
+	<key>1-3</key>
+	<dict>
+		<key>Goal</key>
+		<string>3</string>
+		<key>Planets</key>
+		<array>
+			<dict>
+				<key>Type</key>
+				<string>Planet</string>
+				<key>Position</key>
+				<string>50,50</string>
+				<key>Velocity</key>
+				<string>0,0</string>
+				<key>Radius</key>
+				<string>40</string>
+			</dict>
+			<dict>
+				<key>Type</key>
+				<string>Planet</string>
+				<key>Position</key>
+				<string>50,60</string>
+				<key>Velocity</key>
+				<string>5,0</string>
+				<key>Radius</key>
+				<string>20</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

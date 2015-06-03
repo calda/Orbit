@@ -25,16 +25,9 @@ extension SKNode {
     }
 }
 
-class TestViewController: UIViewController {
-    
-    @IBAction func test(sender: AnyObject) {
-        println("test")
-    }
-    
-    
-}
-
 class GameViewController: UIViewController {
+    
+    var levelName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,15 +45,24 @@ class GameViewController: UIViewController {
             scene.scaleMode = .AspectFill
             
             skView.presentScene(scene)
+            
+            if let levelName = levelName {
+                LevelBuilder.build(levelName, forScene: scene)
+            }
         }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //level name is segue identifier
+        levelName = segue.identifier
     }
     
     @IBAction func backPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func test(sender: AnyObject) {
-        println("test")
+        delay(1.0) {
+            let skView = self.view as! SKView
+            skView.presentScene(nil)
+        }
     }
     
     override func shouldAutorotate() -> Bool {

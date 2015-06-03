@@ -18,6 +18,8 @@
 		2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A31B04CBA00020DB7A /* Main.storyboard */; };
 		2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A11B04CBA00020DB7A /* LaunchScreen.xib */; };
 		2ED72F831B0A586800D5FA13 /* PlanetTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */; };
+		2EDBB3E01B1EB0F70004DF50 /* LevelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBB3DF1B1EB0F70004DF50 /* LevelBuilder.swift */; };
+		2EDBB3E21B1EB1800004DF50 /* Levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EDBB3E11B1EB1800004DF50 /* Levels.plist */; };
 		446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E279F1B04CBA00020DB7A /* AppDelegate.swift */; };
 		446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E27A51B04CBA00020DB7A /* CGPointVector.swift */; };
 		446E27B01B04CBA00020DB7A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 446E27A61B04CBA00020DB7A /* GameScene.sks */; };
@@ -49,6 +51,8 @@
 		2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		2E8EEDE51B1D1B65002884DE /* GameSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSegue.swift; sourceTree = "<group>"; };
 		2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetTouch.swift; sourceTree = "<group>"; };
+		2EDBB3DF1B1EB0F70004DF50 /* LevelBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelBuilder.swift; sourceTree = "<group>"; };
+		2EDBB3E11B1EB1800004DF50 /* Levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Levels.plist; sourceTree = "<group>"; };
 		446E27761B04CB220020DB7A /* Orbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446E277A1B04CB220020DB7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		446E278F1B04CB220020DB7A /* OrbitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +98,34 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		2EDBB3DD1B1EB0A40004DF50 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				446E27A11B04CBA00020DB7A /* LaunchScreen.xib */,
+				2E54FB441B1D61B00006E485 /* LaunchViewController.swift */,
+				446E279F1B04CBA00020DB7A /* AppDelegate.swift */,
+				446E27A31B04CBA00020DB7A /* Main.storyboard */,
+				446E27A81B04CBA00020DB7A /* MainViewController.swift */,
+				446E27A61B04CBA00020DB7A /* GameScene.sks */,
+				2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		2EDBB3DE1B1EB0CF0004DF50 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				446E27A71B04CBA00020DB7A /* GameScene.swift */,
+				2EDBB3DF1B1EB0F70004DF50 /* LevelBuilder.swift */,
+				446E27AB1B04CBA00020DB7A /* Planet.swift */,
+				2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */,
+				2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */,
+				446E27BC1B04D9410020DB7A /* PathDot.swift */,
+				2EDBB3E11B1EB1800004DF50 /* Levels.plist */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
 		446E276D1B04CB220020DB7A = {
 			isa = PBXGroup;
 			children = (
@@ -115,20 +147,10 @@
 		446E27781B04CB220020DB7A /* Orbit */ = {
 			isa = PBXGroup;
 			children = (
-				446E27A11B04CBA00020DB7A /* LaunchScreen.xib */,
-				2E54FB441B1D61B00006E485 /* LaunchViewController.swift */,
-				446E279F1B04CBA00020DB7A /* AppDelegate.swift */,
-				446E27A31B04CBA00020DB7A /* Main.storyboard */,
-				446E27A81B04CBA00020DB7A /* MainViewController.swift */,
-				446E27A61B04CBA00020DB7A /* GameScene.sks */,
-				2E8EEDE31B1D1AD0002884DE /* GameViewController.swift */,
-				446E27A71B04CBA00020DB7A /* GameScene.swift */,
-				446E27A91B04CBA00020DB7A /* Images.xcassets */,
-				446E27AB1B04CBA00020DB7A /* Planet.swift */,
-				2E2547901B0C2D23008B63DC /* DecorationPlanet.swift */,
-				2ED72F821B0A586800D5FA13 /* PlanetTouch.swift */,
-				446E27BC1B04D9410020DB7A /* PathDot.swift */,
+				2EDBB3DD1B1EB0A40004DF50 /* Interface */,
+				2EDBB3DE1B1EB0CF0004DF50 /* Game */,
 				2E5B84C61B1BD3E600E08FD5 /* Extensions */,
+				446E27A91B04CBA00020DB7A /* Images.xcassets */,
 				446E27791B04CB220020DB7A /* Supporting Files */,
 			);
 			path = Orbit;
@@ -243,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ED72F801B0A55CA00D5FA13 /* LaunchScreen.xib in Resources */,
+				2EDBB3E21B1EB1800004DF50 /* Levels.plist in Resources */,
 				2ED72F7E1B0A55C700D5FA13 /* Main.storyboard in Resources */,
 				2E5B84CA1B1BE59A00E08FD5 /* main menu planet.png in Resources */,
 				2E5B84CC1B1BEF8B00E08FD5 /* planet.png in Resources */,
@@ -274,6 +297,7 @@
 				446E27B11B04CBA00020DB7A /* GameScene.swift in Sources */,
 				446E27AC1B04CBA00020DB7A /* AppDelegate.swift in Sources */,
 				2E54FB451B1D61B00006E485 /* LaunchViewController.swift in Sources */,
+				2EDBB3E01B1EB0F70004DF50 /* LevelBuilder.swift in Sources */,
 				2E5B84C81B1BD40B00E08FD5 /* CAAnimationDelegate.swift in Sources */,
 				2E2547911B0C2D23008B63DC /* DecorationPlanet.swift in Sources */,
 				446E27AF1B04CBA00020DB7A /* CGPointVector.swift in Sources */,

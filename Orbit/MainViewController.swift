@@ -68,6 +68,18 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         return GameSegueUnwind(identifier: identifier, source: fromViewController, destination: toViewController, performHandler: {})
     }
     
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        let section = indexPath.section + 1
+        let level = indexPath.item + 1
+        let levelName = "\(section)-\(level)"
+        
+        let main = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("game") as! UIViewController
+        let segue = GameSegue(identifier: levelName, source: self, destination: main, performHandler: {})
+        segue.performWithPrepareCalls()
+        
+        return true
+    }
+    
     //pragma MARK: - Collection view for Levels
     
     var sectionColors = [getRandomColor(), getRandomColor(), getRandomColor(), getRandomColor(), getRandomColor()]

@@ -10,12 +10,22 @@ import UIKit
 
 class GameSegue : UIStoryboardSegue {
     
+    func performWithPrepareCalls() {
+        let source = (self.sourceViewController as! UIViewController)
+        let destination = (self.destinationViewController as! UIViewController)
+        
+        source.prepareForSegue(self, sender: nil)
+        destination.prepareForSegue(self, sender: nil)
+        
+        perform()
+    }
+    
     override func perform() {
         let source = (self.sourceViewController as! UIViewController)
         let destination = (self.destinationViewController as! UIViewController)
         
         let window = UIApplication.sharedApplication().keyWindow
-        window?.insertSubview(destination.view, belowSubview: source.view)
+        window?.insertSubview(destination.view, atIndex: 0)
         
         let destOriginal = destination.view.transform
         destination.view.transform = CGAffineTransformScale(destOriginal, 1.5, 1.5)

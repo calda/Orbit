@@ -17,6 +17,7 @@
     var edgeLayer: CAShapeLayer?
     
     var planets: [Planet] = []
+    var neededPlanets: Int = -1
     
     
     //pragma MARK: - Game Setup
@@ -28,7 +29,7 @@
         addEdgePath(screenSize)
         
         let center = CGPointMake(screenSize.width / 2, screenSize.height / 2)
-        addChild(Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary))
+        //addChild(Planet(radius: 40, color: getRandomColor(), position: center, physicsMode: .SceneStationary))
         
         //game setup
         physicsWorld.contactDelegate = self
@@ -119,8 +120,10 @@
     }
     
     func checkLevelCompletion() {
-        var neededPlanets = 3
         
+        //do nothing if game is in sandbox
+        if neededPlanets == -1 { return }
+    
         func createAnimationNamed(name: String, #fill: Bool, #current: CGFloat) {
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.fromValue = edgeLayer?.strokeEnd
