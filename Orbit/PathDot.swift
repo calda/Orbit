@@ -11,6 +11,8 @@ import SpriteKit
 
 class PathDot : SKShapeNode {
     
+    static var dotDirectory: [PlanetID : [PathDot]] = [:]
+    
     convenience init(position: CGPoint){
         self.init()
         self.init(circleOfRadius: 3)
@@ -38,13 +40,27 @@ class PathDot : SKShapeNode {
             }
         }
         
+        var dots = dotDirectory[attached.name!]
+        
+        //create path dots if empty
+        if dots == nil {
+            dots = []
+            for i in 0...10 {
+                let dot = PathDot(position: CGPointZero)
+                attached.parent?.addChild(dot)
+                dots!.append(dot)
+            }
+            dotDirectory.updateValue(dots!, forKey: attached.name!)
+        }
+        
+        //get path dots
+        
+        
         attached.isSimulated = true
         for i in 0...50 {
-            for child in scene.children {
-                if let planet = child as? Planet {
-                    if planet != attached {
-                        attached.applyForcesOf(planet)
-                    }
+            for planet in scene.planets {
+                if planet != attached {
+                    attached.applyForcesOf(planet)
                 }
             }
             
@@ -55,8 +71,9 @@ class PathDot : SKShapeNode {
             attached.updatePosition()
             
             if i % 5 == 0 {
-                let pathDot = PathDot(position: attached.position)
-                scene.addChild(pathDot)
+                let index = i / 5
+                let dot = dots![index]
+                dot.position = attached.position
             }
         }
         attached.isSimulated = false
@@ -79,6 +96,15 @@ class PathDot : SKShapeNode {
             }
         }
         
+    }
+    
+    static func clearDotsForPlanet(planet: Planet) {
+        if let dots = dotDirectory[planet.name!] {
+            for dot in dots {
+                dot.removeFromParent()
+            }
+            dotDirectory.removeValueForKey(planet.name!)
+        }
     }
     
 }

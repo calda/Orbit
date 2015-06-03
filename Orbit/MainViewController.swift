@@ -17,6 +17,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     @IBOutlet weak var planet4: UIImageView!
     @IBOutlet weak var levelCollection: UICollectionView!
     @IBOutlet weak var levelCollectionHeight: NSLayoutConstraint!
+    var timer: NSTimer?
     
     override func viewDidLoad() {
         planet1.transform = CGAffineTransformRotate(planet1.transform, CGFloat(M_PI))
@@ -28,10 +29,19 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             planet.tintColor = getRandomColor()
         }
         
-        getRandomColor()
-        
-        animatePlanets()
-        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if timer == nil {
+            let runLoop = NSRunLoop.currentRunLoop()
+            timer = NSTimer(timeInterval: 0.0025, target: self, selector: "animatePlanets", userInfo: nil, repeats: true)
+            runLoop.addTimer(timer!, forMode: NSRunLoopCommonModes)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        timer?.invalidate()
+        timer = nil
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -42,10 +52,6 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         planet1.transform = CGAffineTransformRotate(planet1.transform, 0.0057)
         planet2.transform = CGAffineTransformRotate(planet2.transform, 0.0078)
         planet3.transform = CGAffineTransformRotate(planet3.transform, 0.0093)
-        //planet4.transform = CGAffineTransformRotate(planet4.transform, 0.0053)
-        delay(0.001) {
-            self.animatePlanets()
-        }
     }
     
     //pragma MARK: - Presenting the Game Scene

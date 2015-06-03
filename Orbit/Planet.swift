@@ -9,6 +9,8 @@
 import Foundation
 import SpriteKit
 
+typealias PlanetID = String
+
 class Planet : SKShapeNode{
     
     let GRAVITATIONAL_CONSTANT : CGFloat = 0.008125
@@ -52,6 +54,7 @@ class Planet : SKShapeNode{
         self.physicsBody?.contactTestBitMask = 1 | 2 | 3 | 4
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.categoryBitMask = physicsMode.rawValue
+        self.name = "\(arc4random())"
     }
     
     func applyForcesOf(other: Planet){

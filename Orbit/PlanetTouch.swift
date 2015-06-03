@@ -11,13 +11,14 @@ import SpriteKit
 
 var TOUCH_TO_VELOCITY_RATIO: CGFloat = -40.0
 
-class PlanetTouch : SKShapeNode{
+class PlanetTouch : SKShapeNode {
     
     var touchIsDown: Bool = true
     var lineNode : SKShapeNode?
     var arrowEnd : SKNode?
     var lineEnd : CGPoint?
     var planetVelocity : CGVector = CGVectorMake(0, 0)
+    var ownerID : PlanetID?
     
     var showVelocityPercentage: CGFloat = 1.0
     var originalLength: CGFloat = 0.0
@@ -109,21 +110,12 @@ class PlanetTouch : SKShapeNode{
            return
         }
         
-        clearDots()
-        
         let tempPlanet = Planet(radius: 20, color: self.fillColor, position: self.position, physicsMode: .Player)
         tempPlanet.velocityVector = planetVelocity
+        tempPlanet.name = ownerID
         if let parent = self.parent {
             self.parent!.addChild(tempPlanet)
             PathDot.generatePathOnPlanet(tempPlanet, persistAttached: false, resetAll: false)
-        }
-    }
-    
-    func clearDots() {
-        for anyChild in self.parent!.children {
-            if let dot = anyChild as? PathDot {
-                dot.removeFromParent()
-            }
         }
     }
     
@@ -149,6 +141,7 @@ class TouchTracker {
         }
         let newPlanet = Planet(radius: 20, color: getRandomColor(), position: touch, physicsMode: .Player)
         newPlanet.touch = PlanetTouch(radius: 20, color: newPlanet.fillColor, position: touch)
+        newPlanet.touch!.ownerID = newPlanet.name
         TouchTracker.touches.updateValue(touch, forKey: newPlanet)
         return newPlanet.touch
     }
@@ -161,9 +154,10 @@ class TouchTracker {
             }
             planet.velocityVector = (planet.position.asVector() - touch.asVector()) / TOUCH_TO_VELOCITY_RATIO
             TouchTracker.touches.removeValueForKey(planet)
-            planet.touch?.clearDots()
             planet.touch?.clearDuplicatePortalPlanets()
             planet.touch?.touchIsDown = false
+            PathDot.clearDotsForPlanet(planet)
+            
             return planet
         }
         return nil

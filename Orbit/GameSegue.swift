@@ -22,10 +22,6 @@ class GameSegue : UIStoryboardSegue {
         
         let sourceShrink = CGAffineTransformScale(source.view.transform, 1.5, 1.5)
         
-        delay(0.4) {
-            println("test")
-        }
-        
         UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: nil, animations: {
                 source.view.transform = sourceShrink
                 source.view.alpha = 0.0
