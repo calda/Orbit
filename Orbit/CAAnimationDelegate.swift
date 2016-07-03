@@ -17,7 +17,7 @@ class CAAnimationDelegate : NSObject {
         self.animationEnded = animationEnded
     }
     
-    override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         animationEnded()
     }
     

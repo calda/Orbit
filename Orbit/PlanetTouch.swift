@@ -36,7 +36,7 @@ class PlanetTouch : SKShapeNode {
         lineNode!.fillColor = color
         lineNode!.strokeColor = color
         lineNode!.lineWidth = 5.0
-        lineNode!.lineCap = kCGLineCapRound
+        lineNode!.lineCap = CGLineCap.Round
         self.addChild(lineNode!)
         
         //create arrow line cap
@@ -147,7 +147,7 @@ class TouchTracker {
     }
     
     func stopTracking(touch: CGPoint) -> Planet? {
-        if var planet = getAssociatedPlanet(touch) {
+        if let planet = getAssociatedPlanet(touch) {
             if planet is DummyPlanet {
                 TouchTracker.touches.removeValueForKey(planet)
                 return nil
@@ -164,7 +164,7 @@ class TouchTracker {
     }
     
     func didMove(touch: CGPoint){
-        if var planet = getAssociatedPlanet(touch) {
+        if let planet = getAssociatedPlanet(touch) {
             TouchTracker.touches.updateValue(touch, forKey: planet)
             planet.touch?.planetVelocity = (planet.position.asVector() - touch.asVector()) / TOUCH_TO_VELOCITY_RATIO
             planet.touch?.setTouchPosition(touch)
@@ -174,7 +174,7 @@ class TouchTracker {
     func getAssociatedPlanet(touch : CGPoint) -> Planet? {
         var closest : (distance: CGFloat, planet: Planet?, touch: CGPoint?) = (CGFloat.max, nil, nil)
         for (planet, candidate) in TouchTracker.touches {
-            var distanceSquared = touch.distanceSquaredTo(candidate)
+            let distanceSquared = touch.distanceSquaredTo(candidate)
             if(closest.distance > distanceSquared){
                 closest = (distanceSquared, planet, candidate)
             }
@@ -184,7 +184,7 @@ class TouchTracker {
     
     static func countTouches() -> Int {
         var count = 0
-        for planet in TouchTracker.touches.keys.array {
+        for planet in TouchTracker.touches.keys {
             if !(planet is DummyPlanet) {
                 count++
             }

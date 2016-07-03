@@ -11,8 +11,8 @@ import UIKit
 class GameSegue : UIStoryboardSegue {
     
     func performWithPrepareCalls() {
-        let source = (self.sourceViewController as! UIViewController)
-        let destination = (self.destinationViewController as! UIViewController)
+        let source = (self.sourceViewController )
+        let destination = (self.destinationViewController )
         
         source.prepareForSegue(self, sender: nil)
         destination.prepareForSegue(self, sender: nil)
@@ -21,8 +21,8 @@ class GameSegue : UIStoryboardSegue {
     }
     
     override func perform() {
-        let source = (self.sourceViewController as! UIViewController)
-        let destination = (self.destinationViewController as! UIViewController)
+        let source = (self.sourceViewController )
+        let destination = (self.destinationViewController )
         
         let window = UIApplication.sharedApplication().keyWindow
         window?.insertSubview(destination.view, atIndex: 0)
@@ -32,12 +32,12 @@ class GameSegue : UIStoryboardSegue {
         
         let sourceShrink = CGAffineTransformScale(source.view.transform, 1.5, 1.5)
         
-        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: [], animations: {
                 source.view.transform = sourceShrink
                 source.view.alpha = 0.0
             }, completion: nil)
         
-        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: [], animations: {
                 destination.view.transform = destOriginal
             }, completion: { success in
                 source.presentViewController(destination, animated: false, completion: nil)
@@ -49,8 +49,8 @@ class GameSegue : UIStoryboardSegue {
 class GameSegueUnwind : UIStoryboardSegue {
     
     override func perform() {
-        let source = (self.sourceViewController as! UIViewController)
-        let destination = (self.destinationViewController as! UIViewController)
+        let source = (self.sourceViewController )
+        let destination = (self.destinationViewController )
         destination.view.alpha = 0.0
         
         let window = UIApplication.sharedApplication().keyWindow
@@ -61,11 +61,11 @@ class GameSegueUnwind : UIStoryboardSegue {
         
         let sourceShrink = CGAffineTransformScale(source.view.transform, 1.5, 1.5)
         
-        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: [], animations: {
             source.view.transform = sourceShrink
         }, completion: nil)
         
-        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: [], animations: {
                 destination.view.transform = destOriginal
                 destination.view.alpha = 1.0
             }, completion: { success in

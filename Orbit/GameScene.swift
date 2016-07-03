@@ -74,7 +74,7 @@
         super.addChild(node)
     }
     
-    override func removeChildrenInArray(nodes: [AnyObject]!) {
+    override func removeChildrenInArray(nodes: [SKNode]) {
         for node in nodes {
             if let planet = node as? Planet {
                 planet.removeFromParent()
@@ -124,7 +124,7 @@
         //do nothing if game is in sandbox
         if neededPlanets == -1 { return }
     
-        func createAnimationNamed(name: String, #fill: Bool, #current: CGFloat) {
+        func createAnimationNamed(name: String, fill: Bool, current: CGFloat) {
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.fromValue = edgeLayer?.strokeEnd
             animation.toValue = (fill ? 1.0 : 0.0)
@@ -185,30 +185,30 @@
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if touchTracker == nil{
             touchTracker = TouchTracker()
         }
         for touch in touches{
-            let position = (touch as! UITouch).previousLocationInNode(self)
+            let position = (touch ).previousLocationInNode(self)
             if let planetTouch = touchTracker!.startTracking(position) {
                 self.addChild(planetTouch)
             }
         }
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches{
-            let position = (touch as! UITouch).previousLocationInNode(self)
+            let position = (touch ).previousLocationInNode(self)
             touchTracker?.didMove(position)
         }
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches{
-            let position = (touch as! UITouch).previousLocationInNode(self)
+            let position = (touch ).previousLocationInNode(self)
             if touchTracker != nil{
-                if var planet = touchTracker!.stopTracking(position) {
+                if let planet = touchTracker!.stopTracking(position) {
                     addChild(planet)
                 }
             }
@@ -224,7 +224,7 @@
     return SKColor(hue: random(min: 0.15, max: 1.0), saturation: random(min: 0.8, max: 1.0), brightness: random(min: 0.5, max: 0.8), alpha: 1.0)
  }
  
- func random(#min: CGFloat, #max: CGFloat) -> CGFloat {
+ func random(min min: CGFloat, max: CGFloat) -> CGFloat {
     return CGFloat(Float(arc4random()) / 0xFFFFFFFF) * (max - min) + min
  }
  

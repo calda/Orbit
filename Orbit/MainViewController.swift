@@ -73,7 +73,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         let level = indexPath.item + 1
         let levelName = "\(section)-\(level)"
         
-        let main = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("game") as! UIViewController
+        let main = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("game") 
         let segue = GameSegue(identifier: levelName, source: self, destination: main, performHandler: {})
         segue.performWithPrepareCalls()
         
@@ -93,7 +93,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "section", forIndexPath: indexPath) as! UICollectionReusableView
+        let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "section", forIndexPath: indexPath) 
         return cell
     }
     
@@ -129,11 +129,11 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         return false
     }
 
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+            return UIInterfaceOrientationMask.Portrait
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
 

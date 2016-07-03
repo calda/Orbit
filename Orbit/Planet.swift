@@ -76,6 +76,8 @@ class Planet : SKShapeNode{
             slowDown = 0.2
         }
         
+        slowDown /= 2.0
+        
         velocityVector = velocityVector + (acceleration * other.gravity * GRAVITATIONAL_CONSTANT * slowDown)
     }
     
@@ -179,7 +181,7 @@ class Planet : SKShapeNode{
     }
     
     func dumpStats(){
-        println("Planet: radius=\(radius)  mass=\(mass)  location=\(position)")
+        print("Planet: radius=\(radius)  mass=\(mass)  location=\(position)")
     }
     
     func mergeWithPlanet(other: Planet) -> Planet? {

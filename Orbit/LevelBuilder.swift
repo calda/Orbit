@@ -20,10 +20,10 @@ class LevelBuilder {
         if let level = plist[levelName] as? NSDictionary {
             
             //level goal
-            if let goal = (level["Goal"] as? String)?.toInt() {
+            if let goalString = level["Goal"] as? String, let goal = Int(goalString) {
                 scene.neededPlanets = goal
             }
-            
+
             //load planets
             if let planets = level["Planets"] as? [NSDictionary] {
                 
@@ -37,7 +37,7 @@ class LevelBuilder {
                     
                     //position. defined in percentages. 50,50 is the middle of the screen.
                     if let dictPosition = planetDict["Position"] as? String {
-                        let splits = split(dictPosition){ $0 == "," }
+                        let splits = dictPosition.characters.split{ $0 == "," }.map { String($0) }
                         if splits.count == 2 {
                             let xPercentage = (splits[0] as NSString).doubleValue
                             let yPercentage = (splits[1] as NSString).doubleValue
@@ -49,7 +49,7 @@ class LevelBuilder {
                     
                     //velocity. pretty self explanitory
                     if let dictVelocity = planetDict["Velocity"] as? String {
-                        let splits = split(dictVelocity){ $0 == "," }
+                        let splits = dictVelocity.characters.split{ $0 == "," }.map { String($0) }
                         if splits.count == 2 {
                             let x = (splits[0] as NSString).doubleValue
                             let y = (splits[1] as NSString).doubleValue
@@ -89,7 +89,7 @@ class LevelBuilder {
                         
                     }
                     else {
-                        println("Could not spawn planet because it has no valid initial position.")
+                        print("Could not spawn planet because it has no valid initial position.")
                     }
                     
                 }

@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>8AA41C39-40C1-4537-B7A3-921D7DE4A806</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Orbit</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>FF6A0A79B98F5EE3AA0790DEAAE2E9E37C6F706A</key>
 		<string>https://github.com/Calda/Orbit.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Orbit.xcodeproj/project.xcworkspace</string>
+	<string>Orbit.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>FF6A0A79B98F5EE3AA0790DEAAE2E9E37C6F706A</key>

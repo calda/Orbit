@@ -12,7 +12,7 @@ import UIKit
 class LaunchViewController : UIViewController {
 
     override func viewDidAppear(animated: Bool) {
-        let main = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("MainMenu") as! UIViewController
+        let main = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("MainMenu") 
         let segue = GameSegue(identifier: "launch", source: self, destination: main, performHandler: {})
         segue.perform()
     }
